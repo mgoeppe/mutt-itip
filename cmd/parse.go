@@ -8,6 +8,7 @@ import (
 
 	"github.com/DusanKasan/parsemail"
 	ics "github.com/arran4/golang-ical"
+	log "github.com/sirupsen/logrus"
 )
 
 func extractMethod(c *ics.Calendar) ics.Method {
@@ -17,6 +18,14 @@ func extractMethod(c *ics.Calendar) ics.Method {
 		}
 	}
 	return ""
+}
+
+func oneEventOrDie(c *ics.Calendar) *ics.VEvent {
+	events := c.Events()
+	if len(events) != 1 {
+		log.Fatal("currently we only support ics with one event")
+	}
+	return events[0]
 }
 
 func embeddedCalendarReader(r io.Reader) (io.Reader, *parsemail.Email, error) {

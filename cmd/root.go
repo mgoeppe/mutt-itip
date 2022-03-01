@@ -10,11 +10,15 @@ import (
 // we always parse in local
 const dateLayout = "20060102T150405"
 
-var rootCmd = &cobra.Command{
-	Use:   "mutt-itip",
-	Short: "mutt-itip displays and replies to email invitations",
-	Long:  "mutt-itip displays emails with embedded files of type text/calendar and is able to reply via email implementing Section 3.2.3 of RFC 5546.",
-}
+var (
+	dry bool
+
+	rootCmd = &cobra.Command{
+		Use:   "mutt-itip",
+		Short: "mutt-itip displays and replies to email invitations",
+		Long:  "mutt-itip displays emails with embedded files of type text/calendar and is able to reply via email implementing Section 3.2.3 of RFC 5546.",
+	}
+)
 
 func Execute() {
 	err := rootCmd.Execute()

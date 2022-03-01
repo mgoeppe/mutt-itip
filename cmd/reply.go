@@ -19,42 +19,35 @@ import (
 
 var (
 	replyComment string
-	dry          bool
 	toEmail      string
 
 	acceptCmd = &cobra.Command{
-		Use:   "accept <your email address>",
-		Args:  cobra.ExactArgs(1),
+		Use:   "accept",
 		Short: "accepts the invitation",
 		Run: func(cmd *cobra.Command, args []string) {
-			reply(ics.ParticipationStatusAccepted, args[0])
+			reply(ics.ParticipationStatusAccepted)
 		},
 	}
 
 	declineCmd = &cobra.Command{
-		Use:   "decline <your email address>",
-		Args:  cobra.ExactArgs(1),
+		Use:   "decline",
 		Short: "declines the invitation",
 		Run: func(cmd *cobra.Command, args []string) {
-			reply(ics.ParticipationStatusDeclined, args[0])
+			reply(ics.ParticipationStatusDeclined)
 		},
 	}
 
 	tentativeCmd = &cobra.Command{
-		Use:   "tentative <your email address>",
-		Args:  cobra.ExactArgs(1),
+		Use:   "tentative",
 		Short: "tentatively accepts the invitation",
 		Run: func(cmd *cobra.Command, args []string) {
-			reply(ics.ParticipationStatusTentative, args[0])
+			reply(ics.ParticipationStatusTentative)
 		},
 	}
 )
 
 func init() {
 	addFlags := func(cmd *cobra.Command) *cobra.Command {
-		// cmd.Flags().StringVar(&smtpAddr, "smtpAddr", "localhost:1025", "smtp address")
-		// cmd.Flags().StringVar(&smtpUser, "smtpUser", "", "user or smtp server")
-		// cmd.Flags().StringVar(&smtpPassCmd, "smtpPassCmd", "", "command printing the password for smtp server")
 		cmd.Flags().StringVar(&replyComment, "replyComment", "", "the comment being sent along with the reply")
 		cmd.Flags().StringVar(&toEmail, "to", "", "if set the reply will be sent to that mail address instead of replying to the sender")
 		cmd.Flags().BoolVar(&dry, "dry", false, "if set reply is printed instead of being sent")
@@ -66,7 +59,12 @@ func init() {
 	rootCmd.AddCommand(addFlags(tentativeCmd))
 }
 
-func reply(r ics.PropertyParameter, from string) {
+func reply(r ics.PropertyParameter) {
+	from := viper.GetString("mail")
+	if from == "" {
+		log.Fatalf("unable to sent reply: you need to set mail in %s", viper.ConfigFileUsed())
+	}
+
 	m, c, err := parseInput(os.Stdin)
 	if err != nil {
 		log.Fatal(err)
@@ -74,14 +72,11 @@ func reply(r ics.PropertyParameter, from string) {
 
 	// validate incoming calendar and event
 	if extractMethod(c) != ics.MethodRequest {
-		log.Fatal("unable to reply if method is not set to REQUEST")
+		log.Fatal("replies are only allowed on ics with method REQUEST")
 	}
-	events := c.Events()
-	if len(events) != 1 {
-		log.Fatal("currently we only support replying to one event")
-	}
+	e := oneEventOrDie(c)
 
-	c, subject := createResponseCalendar(events[0], r, from)
+	c, subject := createResponseCalendar(e, r, from)
 	body := createResponseEmail(c, subject)
 	to := extractMailAddresses(m.From)
 	if toEmail != "" {
@@ -89,7 +84,7 @@ func reply(r ics.PropertyParameter, from string) {
 	}
 
 	log.Infof("replying to invitation with %s", r)
-	printInvite("REQUEST", events[0], false)
+	printInvite("REQUEST", e, false)
 
 	if dry {
 		printMail(from, to, body)
@@ -173,7 +168,7 @@ func printMail(from string, to []string, body []byte) {
 func sendMail(from string, to []string, body []byte) error {
 	smtpAddr := viper.GetString("smtpAddr")
 	if smtpAddr == "" {
-		log.Fatalf("you need to set smtpAddr in %s", viper.ConfigFileUsed())
+		return fmt.Errorf("unable to sent reply: you need to set smtpAddr in %s", viper.ConfigFileUsed())
 	}
 	smtpUser := viper.GetString("smtpUser")
 	smtpPassCmd := viper.GetString("smtpPassCmd")

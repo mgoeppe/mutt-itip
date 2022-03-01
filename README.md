@@ -11,9 +11,15 @@ only the following features are implemented:
   3.2.3](https://datatracker.ietf.org/doc/html/rfc5546#section-3.2.3) of the
   RFC.
 
+* cancellation of a invitation deletes corresponding event from your local
+  calendar, i.e. the corresponding ics file is deleted from your icsDir.
 
->Note: Feel free to contribute other features, e.g. invitation cancellation,
->counter propesal, ...
+  Refer to [Section
+  3.2.5](https://datatracker.ietf.org/doc/html/rfc5546#section-3.2.5) of the
+  RFC.
+
+>Note: Feel free to contribute other features, e.g. counter proposal, decline
+>counter proposal, ...
 ## Installation
 
 Get the binary using go:
@@ -37,6 +43,7 @@ the configuration file should look like:
 ```
 cat << EOF > $HOME/.config/mutt-itip
 mail: <your mail address>
+icsDir: <directory where the ics files of your local calendar reside>
 smtpAddr: <address of the smpt server to use, e.g. localhost:1025>
 smtpUser: <user to use for smtp auth>
 smtpPassCmd: <command printing password to use for smtp auth to stdout, e.g. pass youruser>
@@ -50,4 +57,5 @@ bind index,pager i noop
 macro index,pager ia '<pipe-entry>mutt-itip accept "Accept iCal invitation"
 macro index,pager id '<pipe-entry>mutt-itip decline "Decline iCal invitation"
 macro index,pager it '<pipe-entry>mutt-itip tentative "Tentatively accept iCal invitation
+macro index,pager it '<pipe-entry>mutt-itip update "Update / Delete iCal invitation
 ```
