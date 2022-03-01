@@ -95,6 +95,7 @@ func reply(r ics.PropertyParameter) {
 		if err != nil {
 			log.Fatal(err)
 		}
+		deleteICSFile(e.GetProperty(ics.ComponentPropertyUniqueId).Value)
 	}
 }
 

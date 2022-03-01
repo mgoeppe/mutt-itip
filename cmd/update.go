@@ -33,12 +33,6 @@ func init() {
 }
 
 func updateLocalCalendar(c *ics.Calendar) error {
-	icsDir := viper.GetString("icsDir")
-	if icsDir == "" {
-		log.Fatalf("unable to update local calendar: you need to set icsDir in %s", viper.ConfigFileUsed())
-	}
-	icsDir = os.ExpandEnv(icsDir)
-
 	e := oneEventOrDie(c)
 	uid := e.GetProperty(ics.ComponentPropertyUniqueId).Value
 
@@ -46,15 +40,26 @@ func updateLocalCalendar(c *ics.Calendar) error {
 	var err error
 	switch m {
 	case ics.MethodCancel:
-		f := path.Join(icsDir, uid) + ".ics"
-		if dry {
-			log.Infof("would remove file: %s", f)
-		} else {
-			log.Infof("removing file: %s", f)
-			err = os.Remove(f)
-		}
+		err = deleteICSFile(uid)
 	default:
-		return fmt.Errorf("unsupported method: %s", m)
+		err = fmt.Errorf("unsupported method: %s", m)
 	}
 	return err
+}
+
+func deleteICSFile(uid string) error {
+	icsDir := viper.GetString("icsDir")
+	if icsDir == "" {
+		log.Fatalf("unable to update local calendar: you need to set icsDir in %s", viper.ConfigFileUsed())
+	}
+	icsDir = os.ExpandEnv(icsDir)
+
+	f := path.Join(icsDir, uid) + ".ics"
+	if dry {
+		log.Infof("would remove file: %s", f)
+	} else {
+		log.Infof("removing file: %s", f)
+		return os.Remove(f)
+	}
+	return nil
 }
