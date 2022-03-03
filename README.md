@@ -56,6 +56,6 @@ In order to be able to reply in mutt you might want to use the following macros:
 bind index,pager i noop
 macro index,pager ia '<pipe-entry>mutt-itip accept "Accept iCal invitation"
 macro index,pager id '<pipe-entry>mutt-itip decline "Decline iCal invitation"
-macro index,pager it '<pipe-entry>mutt-itip tentative "Tentatively accept iCal invitation
-macro index,pager it '<pipe-entry>mutt-itip update "Update / Delete iCal invitation
+macro index,pager it '<pipe-entry>mutt-itip tentative "Tentatively accept iCal invitation"
+macro index,pager it '<pipe-entry>mutt-itip update "Update / Delete iCal invitation"
 ```
