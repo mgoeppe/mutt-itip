@@ -58,7 +58,6 @@ func deleteICSFile(uid string) error {
 	if dry {
 		log.Infof("would remove file: %s", f)
 	} else {
-		log.Infof("removing file: %s", f)
 		return os.Remove(f)
 	}
 	return nil

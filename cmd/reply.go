@@ -83,9 +83,6 @@ func reply(r ics.PropertyParameter) {
 		to = []string{toEmail}
 	}
 
-	log.Infof("replying to invitation with %s", r)
-	printInvite("REQUEST", e, false)
-
 	if dry {
 		printMail(from, to, body)
 		// that way we see the outputin mutt
