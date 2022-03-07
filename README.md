@@ -57,5 +57,5 @@ bind index,pager i noop
 macro index,pager ia '<pipe-entry>mutt-itip accept "Accept iCal invitation"
 macro index,pager id '<pipe-entry>mutt-itip decline "Decline iCal invitation"
 macro index,pager it '<pipe-entry>mutt-itip tentative "Tentatively accept iCal invitation"
-macro index,pager it '<pipe-entry>mutt-itip update "Update / Delete iCal invitation"
+macro index,pager iu '<pipe-entry>mutt-itip update "Update / Delete iCal invitation"
 ```
