@@ -183,6 +183,7 @@ func sendMail(from string, to []string, body []byte) error {
 	}
 	smtpPass := strings.Trim(string(b), "\n\t ")
 	host := strings.Split(smtpAddr, ":")[0]
+	// port := strings.Split(smtpAddr, ":")[1]
 
 	err = smtp.SendMail(smtpAddr, smtp.PlainAuth("", smtpUser, smtpPass, host), from, to, body)
 	if err != nil {
