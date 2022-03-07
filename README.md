@@ -41,7 +41,7 @@ to be able to send mails and access local calendars information. Here is a what
 the configuration file should look like:
 
 ```
-cat << EOF > $HOME/.config/mutt-itip
+cat << EOF > $HOME/.config/mutt-itiprc
 mail: <your mail address>
 icsDir: <directory where the ics files of your local calendar reside>
 smtpAddr: <address of the smpt server to use, e.g. localhost:1025>
@@ -56,6 +56,6 @@ In order to be able to reply in mutt you might want to use the following macros:
 bind index,pager i noop
 macro index,pager ia '<pipe-entry>mutt-itip accept "Accept iCal invitation"
 macro index,pager id '<pipe-entry>mutt-itip decline "Decline iCal invitation"
-macro index,pager it '<pipe-entry>mutt-itip tentative "Tentatively accept iCal invitation
-macro index,pager it '<pipe-entry>mutt-itip update "Update / Delete iCal invitation
+macro index,pager it '<pipe-entry>mutt-itip tentative "Tentatively accept iCal invitation"
+macro index,pager it '<pipe-entry>mutt-itip update "Update / Delete iCal invitation"
 ```
