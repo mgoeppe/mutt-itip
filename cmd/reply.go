@@ -77,7 +77,7 @@ func reply(r ics.PropertyParameter) {
 	e := oneEventOrDie(c)
 
 	c, subject := createResponseCalendar(e, r, from)
-	body := createResponseEmail(c, subject)
+	body := createResponseEmail(c, from, subject)
 	to := extractMailAddresses(m.From)
 	if toEmail != "" {
 		to = []string{toEmail}
@@ -136,11 +136,11 @@ func createResponseCalendar(e *ics.VEvent, reply ics.PropertyParameter, email st
 	return c, fmt.Sprintf("Subject: %s: %s\n", fmt.Sprintf("%s", reply), answer)
 }
 
-func createResponseEmail(ical *ics.Calendar, subject string) []byte {
+func createResponseEmail(ical *ics.Calendar, from string, subject string) []byte {
 	var body bytes.Buffer
+	body.WriteString(fmt.Sprintf("From: %s\n", from))
 	body.WriteString(fmt.Sprintf("Subject: %s", subject))
-	body.WriteString("MIME-Version: 1.0\n\n")
-
+	body.WriteString("MIME-Version: 1.0\n")
 	body.WriteString("Content-Type: text/calendar; charset=utf-8; method=reply\n")
 	body.WriteString("Content-Transfer-Encoding: quoted-printable\n\n")
 
@@ -183,6 +183,7 @@ func sendMail(from string, to []string, body []byte) error {
 	}
 	smtpPass := strings.Trim(string(b), "\n\t ")
 	host := strings.Split(smtpAddr, ":")[0]
+	// port := strings.Split(smtpAddr, ":")[1]
 
 	err = smtp.SendMail(smtpAddr, smtp.PlainAuth("", smtpUser, smtpPass, host), from, to, body)
 	if err != nil {
