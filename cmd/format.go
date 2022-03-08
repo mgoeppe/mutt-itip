@@ -21,6 +21,9 @@ var formatCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
+		if len(c.Events()) == 0 {
+			log.Fatal("no events found")
+		}
 		for _, e := range c.Events() {
 			printInvite(string(extractMethod(c)), e, true)
 		}
