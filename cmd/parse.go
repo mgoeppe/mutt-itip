@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/DusanKasan/parsemail"
+
 	ics "github.com/arran4/golang-ical"
 	log "github.com/sirupsen/logrus"
 )
@@ -38,7 +39,7 @@ func embeddedCalendarReader(r io.Reader) (io.Reader, *parsemail.Email, error) {
 			return a.Data, &m, nil
 		}
 	}
-	return nil, nil, fmt.Errorf("no embedded text/calendar file found in mail")
+	return nil, nil, nil
 }
 
 func parseInput(r io.Reader) (*parsemail.Email, *ics.Calendar, error) {
@@ -47,15 +48,17 @@ func parseInput(r io.Reader) (*parsemail.Email, *ics.Calendar, error) {
 		return nil, nil, err
 	}
 
-	r = bytes.NewReader(b)
-	er, m, err := embeddedCalendarReader(r)
+	c, err := ics.ParseCalendar(bytes.NewReader(b))
 	if err == nil {
-		r = er
-	} else {
-		r = bytes.NewReader(b)
+		return nil, c, nil
 	}
 
-	c, err := ics.ParseCalendar(r)
+	r, m, err := embeddedCalendarReader(bytes.NewReader(b))
+	if err != nil {
+		return nil, nil, err
+	}
+
+	c, err = ics.ParseCalendar(r)
 	if err != nil {
 		return nil, nil, err
 	}

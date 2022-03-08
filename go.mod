@@ -3,7 +3,7 @@ module github.com/matoubidou/mutt-itip
 go 1.17
 
 require (
-	github.com/DusanKasan/parsemail v1.2.0
+	github.com/DusanKasan/parsemail v0.0.0-00010101000000-000000000000
 	github.com/arran4/golang-ical v0.0.0-20220220103556-c519bf07e7e6
 	github.com/jedib0t/go-pretty v4.3.0+incompatible
 	github.com/sirupsen/logrus v1.8.1
@@ -36,3 +36,5 @@ require (
 	gopkg.in/ini.v1 v1.66.2 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
+
+replace github.com/DusanKasan/parsemail => github.com/matoubidou/parsemail v1.2.1-0.20220308100018-5a94f967cf0d
