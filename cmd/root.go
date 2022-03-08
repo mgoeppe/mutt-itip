@@ -34,5 +34,6 @@ func init() {
 	viper.AddConfigPath("$HOME/.config/")
 	viper.AddConfigPath("$HOME/.config/mutt")
 	viper.AddConfigPath("/etc")
-	viper.ReadInConfig()
+	// ignore error -> only format will work
+	_ = viper.ReadInConfig()
 }

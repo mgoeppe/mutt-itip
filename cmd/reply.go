@@ -1,4 +1,3 @@
-// this file implements the reply commands according to https://datatracker.ietf.org/doc/html/rfc5546#section-3.2.3
 package cmd
 
 import (
@@ -77,7 +76,10 @@ func reply(r ics.PropertyParameter) {
 	e := oneEventOrDie(c)
 
 	c, subject := createResponseCalendar(e, r, from)
-	body := createResponseEmail(c, from, subject)
+	body, err := createResponseEmail(c, from, subject)
+	if err != nil {
+		log.Fatal(err)
+	}
 	to := extractMailAddresses(m.From)
 	if toEmail != "" {
 		to = []string{toEmail}
@@ -92,7 +94,7 @@ func reply(r ics.PropertyParameter) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		deleteICSFile(e.GetProperty(ics.ComponentPropertyUniqueId).Value)
+		_ = deleteICSFile(e.GetProperty(ics.ComponentPropertyUniqueId).Value)
 	}
 }
 
@@ -133,7 +135,7 @@ func createResponseCalendar(e *ics.VEvent, reply ics.PropertyParameter, email st
 	return c, fmt.Sprintf("Subject: %s: %s\n", fmt.Sprintf("%s", reply), answer)
 }
 
-func createResponseEmail(ical *ics.Calendar, from string, subject string) []byte {
+func createResponseEmail(ical *ics.Calendar, from string, subject string) ([]byte, error) {
 	var body bytes.Buffer
 	body.WriteString(fmt.Sprintf("From: %s\n", from))
 	body.WriteString(fmt.Sprintf("Subject: %s", subject))
@@ -141,9 +143,12 @@ func createResponseEmail(ical *ics.Calendar, from string, subject string) []byte
 	body.WriteString("Content-Type: text/calendar; charset=utf-8; method=reply\n")
 	body.WriteString("Content-Transfer-Encoding: quoted-printable\n\n")
 
-	ical.SerializeTo(&body)
+	err := ical.SerializeTo(&body)
+	if err != nil {
+		return nil, err
+	}
 
-	return body.Bytes()
+	return body.Bytes(), nil
 }
 
 func extractMailAddresses(addrs []*mail.Address) []string {
@@ -176,11 +181,10 @@ func sendMail(from string, to []string, body []byte) error {
 	cmd.Stderr = &stderr
 	b, err := cmd.Output()
 	if err != nil {
-		return fmt.Errorf("execution of smtpPassCmd '%s' returned: %w, stderr: %v", smtpPassCmd, err, string(stderr.Bytes()))
+		return fmt.Errorf("execution of smtpPassCmd '%s' returned: %w, stderr: %v", smtpPassCmd, err, stderr.String())
 	}
 	smtpPass := strings.Trim(string(b), "\n\t ")
 	host := strings.Split(smtpAddr, ":")[0]
-	// port := strings.Split(smtpAddr, ":")[1]
 
 	err = smtp.SendMail(smtpAddr, smtp.PlainAuth("", smtpUser, smtpPass, host), from, to, body)
 	if err != nil {
