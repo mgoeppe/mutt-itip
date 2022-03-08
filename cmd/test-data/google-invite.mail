@@ -1,0 +1,582 @@
+Received: from DE35S004EXC17.wp.corpintra.net (53.3.5.144) by
+ DE35S004EXC18.wp.corpintra.net (53.3.5.149) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.15
+ via Mailbox Transport; Mon, 7 Mar 2022 22:07:18 +0100
+Received: from mailrouter.emea.svc.corpintra.net (53.18.147.63) by
+ SMTP-BGN.wp.corpintra.net (53.3.5.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Mon, 7 Mar 2022 22:07:18 +0100
+Received: from ms-svc-em1-114.emea.svc.corpintra.net (ms-svc-em1-110-hide.emea.svc.corpintra.net [53.18.190.231])
+	by mailrouter.emea.svc.corpintra.net (Postfix) with ESMTP id 5B6902401C1
+	for <invited.user@dreggn.at>; Mon,  7 Mar 2022 22:07:18 +0100 (CET)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from ms-svc-em1-110-hide.emea.svc.corpintra.net (HELO msi-svc-em1-211.emea.svc.corpintra.net) ([53.18.190.231])
+  by ms-svc-em1-114.emea.svc.corpintra.net with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2022 22:07:18 +0100
+Received-SPF: Pass (one.mail-in.dreggn.at: domain of
+  3BHQmYg8OAJ0J7QEF7P.DLBMMBIDLLDIBJ7FI.9LJ@calendar-server.bounces.google.com
+  designates 209.85.128.74 as permitted sender)
+  identity=mailfrom; client-ip=209.85.128.74;
+  receiver=one.mail-in.dreggn.at;
+  envelope-from="3BHQmYg8OAJ0J7QEF7P.DLBMMBIDLLDIBJ7FI.9LJ@calendar-server.bounces.google.com";
+  x-sender="3BHQmYg8OAJ0J7QEF7P.DLBMMBIDLLDIBJ7FI.9LJ@calendar-server.bounces.google.com";
+  x-conformance=spf_only; x-record-type="v=spf1";
+  x-record-text="v=spf1 ip4:35.190.247.0/24 ip4:64.233.160.0/19
+  ip4:66.102.0.0/20 ip4:66.249.80.0/20 ip4:72.14.192.0/18
+  ip4:74.125.0.0/16 ip4:108.177.8.0/21 ip4:173.194.0.0/16
+  ip4:209.85.128.0/17 ip4:216.58.192.0/19 ip4:216.239.32.0/19
+  ~all"
+Authentication-Results: one.mail-in.dreggn.at; spf=Pass smtp.mailfrom=3BHQmYg8OAJ0J7QEF7P.DLBMMBIDLLDIBJ7FI.9LJ@calendar-server.bounces.google.com; dkim=pass (signature verified) header.i=@google.com; dkim=pass (signature verified) header.i=@googlemail.com; dmarc=pass (p=quarantine dis=none) d=googlemail.com
+X-IronPort-RemoteIP: 209.85.128.74
+X-IronPort-MID: 225017038
+X-IronPort-Reputation: 3.5
+X-IronPort-Listener: IncomingMail
+X-IronPort-SenderGroup: UNKNOWNLIST
+X-IronPort-MailFlowPolicy: $ACCEPTED
+X-IPAS-Result: =?us-ascii?q?A0FFAQCdciZih0qAVdEBWR4BAQsSDIM7XygzAUpWLAcIR?=
+ =?us-ascii?q?IRVV0qPd4EslHKHaQMYFhgDDwcBAQEBAQEBAQEEAQQqAQkNBAEBAwQ1AQaER?=
+ =?us-ascii?q?BmECQIkATgTAQIBAgEBAQEBAwIDAQEBAQUBAQEEAQEBAgEDAwIBAQEBAhABA?=
+ =?us-ascii?q?QEOCwkFCAoHEA4FIoVoDYI1BQIDGA4LY1ADNQEBAQEBAQEBAQEBAQEBAQEBA?=
+ =?us-ascii?q?QEBAQEBAQEBAQ4CQAc3EgMHLhYRHQE5Aw0FRwIEMgEFAQMBMSKCBF4BgmQBA?=
+ =?us-ascii?q?QIuD55tgh+BBD2DXYdVgTGBAYIJBgUDAgKBNAGBB4IBChkEChoNfYE+BwIHE?=
+ =?us-ascii?q?oEqgVSES4EVAQGCXYIMDIIdJ4IpNIFrgl6BBQqBEkICAgEXenkggk2CZQSVO?=
+ =?us-ascii?q?4I2DC0fgWUrkgSJPYYJnmYHiTaDH4IBlGEzhUGiaRgBhnQLHY8gjROSWoZ8E?=
+ =?us-ascii?q?CMSKoEZX4EgNDyCHYEcCUgZD44gDAsLFRiDI4UUhUpEMTgCBgEKAQEDCQGCO?=
+ =?us-ascii?q?o1GgW4BAQ?=
+IronPort-PHdr: A9a23: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
+IronPort-Data: A9a23:aiLVjqIb9e5gMNzpFE+R85IlxSXFcZb7ZxGr2PjLsTHJhXpii2xUn
+ yZGBjeZY6zJUtbHC4AoLtTyoFRf6tXleuUTSQA6qi0wFCoS98OaXIrDd0ypNC3LIpfKQRw3s
+ 54SN4bJdpFvRSXW/huga7S+8iVyivrWTbSjAbWYMC56GVY7GE/N5f4bd8sR2uaE1vDgXV/S0
+ T+Ln/DiBbOF59JVGjJEt6uI+UM/7P+otDpD5AdhbPob4FOOnSBKVM4TefrpcyKoE4JZN9Dhe
+ +uSl7vREkE1XvsO5nFJtp6hLyXml5aLZVDmZkJ+AvPk314ezsAL+v5T2MA0MS+7sB3U2YEpo
+ DlxncboE11xZfWTwL91vyRwSkmSA4UXoNcrHlDi6aR//2WeG5c766wzZK2eFdRwFtdfWQmix
+ 9RBQNw+Rknra9aN/V6OYrIEavLPjiXcFNh3VnlIlVk1BBu9KHzJa/2iCdRwhV/cii3SdBp3i
+ gVwhTdHNXz9jxNz1lg/T708rqC2inrDSBZljEu2p4xr+2PP5VkkuFTtGIK9lt2iQMxUmgOHo
+ zuD8TulRB4dM9ObxHyO9XfEau3nx3uqHtJPUuTiprg13DV/xURLYPESfQCRgcC8u0HufPt9c
+ 25LwwcA8pB02GiBa/zXfjGchFKllDxDdfsWQskYwAqEzqfS7w+DQ3MJVCBMcposs9IwTjExk
+ FCOmNztCHpkt7j9pXe1rO3J9WrtYXNFRYMETXZfUFYD8vPBm6Vwgy/VR8lGDPaqr/SgTFkcx
+ BjT9HRk71kJtuYO3rm7/FncxSChopzEVCY57wTSWm+/qAh+YeaYi5eA7FHa6bNfKd/cQAbd+
+ ncDnMea4aYFCpTleDGxrPslW56r1bGbPD7gunVSO4AC9RLx43W/VNUFiN1hH3tBPsEBcD7vR
+ UbcvwJN+ZNeVEdGi4cnM+pd7Ox6ncDd+cTZuuP8NYURP8AgHOOT1GQ/Oh7KhjGFfF0EyPlnY
+ f+mndCQ4WH24JmLIRKzTuYZlKAun2Uwmj+VSpf8wBCql7GZYRZ5qIvp0nPRPojVD4ve+G05F
+ uqz0ePXlX2zt8WjP0HqHXY7dwxiEJTCLcmeRzZrXuCCOBF6P2oqFuXcx7gsE6Q8wfgLyLiXr
+ inlBhcBoLYauZEhAVXaApyEQOO/NauTUVpmVcDRFQrygiN7ON7HAFk3LsJpLeZPGBNfIQ5cF
+ qFZIa1s89xATTPI/zl1UHUOhN0KSfhfvirXZ3DNSGFnIfZIHlWZkve5IFeH3HRQX0Kf6Jtvy
+ 5X9h1izacdSF2xKUp2MANrxlAzZgJTosLkvN6c+CoIPIxqEHUkDA3CZs8Lb1OlXcUSTnmbBj
+ l3OafrazMGUy7IIHBDyrfnsh6+mFOxxGkdfFmjfq72xMEHnEqCLm+esjM7gkfHhuKHcoM1Op
+ tm5C9n3OfkKmlpDqc9nHqx1wLh47dzyobRX1UJrG3LEa1ntAbRlSpVD9dcarbVDn9e1piPvM
+ n+yFhJm1Xll9S8r/JP95OboUwhb6cwppw==
+IronPort-HdrOrdr: A9a23:9qmpWq4jmgIXn36y+QPXwPnXdLJyesId70hD6qkmc20xTiX4rb
+ HUoB1/73WYtN9/YgBGpTntAtj4fZq+z/9ICOsqTNOftWDd0QPCEGgF1/qA/9TOIVydygc379
+ YHT0ERMqyJMbG4t6nHCcuDf+rIDOPozElgv4fj80s=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="5.90,163,1643673600";
+   d="ics'?scan'208,217";a="225017038"
+X-IronPort-Outbreak-Status: No, level 0, Unknown - Unknown
+X-MGA-submission: =?us-ascii?q?MDGIzacEBhwHOpnftlH2MUXUYdoMEohMz6OjAJ?=
+ =?us-ascii?q?Ry8BM7tVobJWoDmjyUGiOM4urc2CksdiNOiFO6KY/yaphI2+WojQ/swt?=
+ =?us-ascii?q?6tzB7oeJC/hcCsFd/Rvhy/2HLzR5JcIRvCeh94gKi7RV8IC1/NAimtue?=
+ =?us-ascii?q?mblvAD61mr5dXKxPwUuiwnWA=3D=3D?=
+Received: from mail-wm1-f74.google.com ([209.85.128.74])
+  by one.mail-in.dreggn.at with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2022 21:07:17 +0000
+Received: by mail-wm1-f74.google.com with SMTP id l2-20020a1ced02000000b0038482a47e7eso145984wmh.5
+        for <invited.user@dreggn.at>; Mon, 07 Mar 2022 13:07:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:reply-to:sender:auto-submitted:message-id:date:subject
+         :from:to;
+        bh=JRIAQBBl/4+14RZdngLqr4Qw6BFHfWu9lUwFNOva/b0=;
+        b=M5EovAJoQTvLkG8FRY4pY6W9T9gvVujyUyV1e+OgpLNG6YjkYlmuMQJNY6gBro4uN1
+         Q+IKXVu/LDZvnRAw2Dfw4ZPFfjk+fCEmmjMKPv0in3ioT4I1rsno6E+U5nKMTDyXtwW4
+         srQM/3Q+v8CG5r5lL3T1V8YGYcmWto3Ciy9AaGMRWK51vcwSGpCidXU4mGPuHU6PISgM
+         dwOBx21fjecvMRTlkUcn3rFHdB5WpYpjJWP0ODAs7o4Qw5TBtvAHHVU8vigHAUGGXJNH
+         /uRS+58M1HLbxAF3QKbDnm7hSpOXZyw6vmQq0x2+9z4i5g+xSi2zCl6PgK9QOLGYYYZU
+         0YKg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20210112;
+        h=mime-version:reply-to:sender:auto-submitted:message-id:date:subject
+         :from:to;
+        bh=JRIAQBBl/4+14RZdngLqr4Qw6BFHfWu9lUwFNOva/b0=;
+        b=LYgGxpxRuKfHOqqutENF5ktnzLOxdLjFHswT39wm8zg3QveAO/IYX8wj7wIYuEF3uk
+         lysgxU6jcgcF4qzwOf4LC+2HfndH8Fa0HYD9ZTbOSvhB5boAzGvxITeYwme+iibkNCel
+         ZfMnCxBp19zxB5E3NiH3eRs0nJf3RTfAxVqcTT5FkmLqCqlZp0jhCQPxSi/3nSgIEdr+
+         fU6Q7Wo3+7W30+5Ngnzo/ElTmLW2GvXHEjcwk3494V+V5wE3LnmHUL+j7495gY6eKuM7
+         ByDadDhu3J1n1HOzfHoA90TWEvSgbUas553VdJM2WPsTkTwdNoYpeOlXo6zxPfo5vKXm
+         nLpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:sender:auto-submitted
+         :message-id:date:subject:from:to;
+        bh=JRIAQBBl/4+14RZdngLqr4Qw6BFHfWu9lUwFNOva/b0=;
+        b=4xkciAaaExBd0oavCd44TUciuER6eA2rkxaDDztvHk6HOPSkAcQdR08ZTJNMuNAAh0
+         8mA7Ik/bEka3z1HpKD9snyBYLKrLdMjtbyXn/hd++joXIrsbFpLK2sJ3Kn8Xauy7FnZ6
+         s7FXTTuYXXRtob9QZJXkq7TGZ6/5ICiK/RpWLY7fJZVABHP65uh0vFFJI1jT9cB+THJ3
+         5gUxxv5bqgRHHv1+H5bs1PHitstwaHfjJDwlCDPbgpkmFgYlCVBJcDRIFVNKzufnGhXg
+         VRfnVhcGZ8eX8oYjXsHfci7aMc3FMPI3MpmMd+H1ghmksmiksfQver+04QF0MZaJdG3C
+         XN7g==
+X-Gm-Message-State: AOAM530FPfcqjDEaT5osS65n0YG+V5oi/WmP9NC4TxlqXvMgEhMO+D7I
+	rTL3eheTwNul6lGCP0SCFImGwr4bwmcy6Bh2v/kt
+X-Google-Smtp-Source: ABdhPJzGutwixS9n4o38VashjhlAjEYmBEekGi6F2pvNOgVDM3CYD4m/1YU7Ek7YiTsKuTZRJUgVB4++KCf4bvuP2RoI
+X-Received: by 2002:adf:f48e:0:b0:1f0:636a:1bbd with SMTP id
+ l14-20020adff48e000000b001f0636a1bbdmr10084806wro.580.1646687236559; Mon, 07
+ Mar 2022 13:07:16 -0800 (PST)
+Reply-To: some.user@googlemail.com
+Sender: Google Kalender <calendar-notification@google.com>
+Auto-Submitted: auto-generated
+Message-ID: <000000000000ca986205d9a73f1d@google.com>
+Date: Mon, 07 Mar 2022 21:07:16 +0000
+Subject: =?UTF-8?Q?Aktualisierte_Einladung=3A_Test_=2D_Do_10=2E_M=C3=A4r=2E_2022_10?=
+	=?UTF-8?Q?=3A30_=2D_11=3A30_=28MEZ=29_=28invited=2Euser=40dreggn=2Eat=29?=
+From: some.user@googlemail.com
+To: invited.user@dreggn.at
+Content-Type: multipart/mixed; boundary="000000000000ca984d05d9a73f1c"
+Return-Path: 3BHQmYg8OAJ0J7QEF7P.DLBMMBIDLLDIBJ7FI.9LJ@calendar-server.bounces.google.com
+X-MS-Exchange-Organization-Network-Message-Id: 40b55f01-ee0c-49fb-b7cf-08da007e76bc
+X-MS-Exchange-Organization-AVStamp-Mailbox: SMEXIe@f;1742500;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL: 0
+X-MS-Exchange-Organization-AuthSource: DE35S004EXC17.wp.corpintra.net
+X-MS-Exchange-Organization-AuthAs: Anonymous
+X-MS-Exchange-Transport-EndToEndLatency: 00:00:00.1841254
+X-MS-Exchange-Processed-By-BccFoldering: 15.02.0986.015
+MIME-Version: 1.0
+X-TUID: Ic2RfuNdMqoz
+
+--000000000000ca984d05d9a73f1c
+Content-Type: multipart/alternative; boundary="000000000000ca984c05d9a73f1a"
+
+--000000000000ca984c05d9a73f1a
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Content-Transfer-Encoding: base64
+
+RGllc2VyIFRlcm1pbiB3dXJkZSBnZcOkbmRlcnQuCgpUaXRlbDogVGVzdApUaGlzIGlzIGEgdGV
+zdC4KV2FubjogRG8gMTAuIE3DpHIuIDIwMjIgMTA6MzAg4oCTIDExOjMwIE1pdHRlbGV1cm9ww6
+Rpc2NoZSBaZWl0IC0gQmVybGluCgpUZWlsbmFobWVpbmZvcm1hdGlvbmVuOiBUZWlsbmVobWVuI
+G1pdDogR29vZ2xlIE1lZXQKaHR0cHM6Ly9tZWV0Lmdvb2dsZS5jb20vam9xLXRiZmgtdXBlP2hz
+PTIyNAoKS2FsZW5kZXI6IG1hdGhpYXMuemVsbGVyQGRhaW1sZXIuY29tCldlcgogICAgICogc29
+tZS51c2VyQGdvb2dsZW1haWwuY29tIC0gT3JnYW5pc2F0b3IKICAgICAqIGludml0ZWQudXNlck
+BkcmVnZ24uYXQKClRlcm1pbmluZm9ybWF0aW9uZW46Cmh0dHBzOi8vY2FsZW5kYXIuZ29vZ2xlL
+mNvbS9jYWxlbmRhci9ldmVudD9hY3Rpb249VklFVyZlaWQ9Tm5CaVlXbzNhMmxvT0RCd2RqZzJN
+emhvT1RadU9YRjFNV1VnYldGMGFHbGhjeTU2Wld4c1pYSkFaR0ZwYld4bGNpNWpiMjAmdG9rPU1
+6QWpiV0YwYUdsaGN5NW5iMlZ3Y0dWc1FHZHZiMmRzWlcxaGFXd3VZMjl0TnpnME1EZGpOVGt6TW
+pFd1pUTTJOVFkwTkdZNE5tTmxNamhrT0dRMU5XUmxNVFZtTURrMVlnJmN0ej1FdXJvcGUlMkZCZ
+XJsaW4maGw9ZGUmZXM9MAoKRWlubGFkdW5nIHZvbiBHb29nbGUgS2FsZW5kZXI6IGh0dHBzOi8v
+Y2FsZW5kYXIuZ29vZ2xlLmNvbS9jYWxlbmRhci8KClNpZSBlcmhhbHRlbiBkaWVzZSBFLU1haWw
+gdW50ZXIgbWF0aGlhcy56ZWxsZXJAZGFpbWxlci5jb20sIGRhIFNpZSBlaW4gR2FzdApiZWkgZG
+llc2VtIFRlcm1pbiBzaW5kLgoKTGVobmVuIFNpZSBkaWVzZW4gVGVybWluIGFiLCB1bSBrZWluZ
+SB3ZWl0ZXJlbiBJbmZvcm1hdGlvbmVuIHp1IGRpZXNlbQpUZXJtaW4genUgZXJoYWx0ZW4uIFNp
+ZSBrw7ZubmVuIGF1Y2ggdW50ZXIKaHR0cHM6Ly9jYWxlbmRhci5nb29nbGUuY29tL2NhbGVuZGF
+yLyBlaW4gR29vZ2xlLUtvbnRvIGVyc3RlbGxlbiB1bmQgSWhyZQpCZW5hY2hyaWNodGlndW5nc2
+VpbnN0ZWxsdW5nZW4gZsO8ciBJaHJlbiBnZXNhbXRlbiBLYWxlbmRlciBzdGV1ZXJuLgoKV2Vub
+iBTaWUgZGllc2UgRWlubGFkdW5nIHdlaXRlcmxlaXRlbiwga2FubiBqZWRlciBFbXBmw6RuZ2Vy
+IGVpbmUgQW50d29ydCBhbgpkZW4gT3JnYW5pc2F0b3Igc2VuZGVuIHVuZCB6dXIgR8Okc3RlbGl
+zdGUgaGluenVnZWbDvGd0IHdlcmRlbi4gQXXDn2VyZGVtCmvDtm5udGUgZXIgd2VpdGVyZSBOdX
+R6ZXIgZWlubGFkZW4gdW5kIElocmUgQW50d29ydCDDpG5kZXJuLiBXZWl0ZXJlCkluZm9ybWF0a
+W9uZW46IGh0dHBzOi8vc3VwcG9ydC5nb29nbGUuY29tL2NhbGVuZGFyL2Fuc3dlci8zNzEzNSNm
+b3J3YXJkaW5n --000000000000ca984c05d9a73f1a Content-Type: text/html;
+charset="UTF-8" Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+</head>
+<body>
+<span itemscope=3D"" itemtype=3D"http://schema.org/InformAction"><span styl=
+e=3D"display:none" itemprop=3D"about" itemscope=3D"" itemtype=3D"http://sch=
+ema.org/PostalAddress">
+<meta itemprop=3D"description" content=3D"Ort aktualisiert">
+</span><span itemprop=3D"object" itemscope=3D"" itemtype=3D"http://schema.o=
+rg/Event">
+<div style=3D"">
+<table cellspacing=3D"0" cellpadding=3D"8" border=3D"0" summary=3D"" style=
+=3D"width:100%;font-family:Arial,Sans-serif;border:1px Solid #ccc;border-wi=
+dth:1px 2px 2px 1px;background-color:#fff;">
+<tbody>
+<tr>
+<td>
+<meta itemprop=3D"eventStatus" content=3D"http://schema.org/EventReschedule=
+d">
+<h4 style=3D"padding:6px 0;margin:0 0 4px 0;font-family:Arial,Sans-serif;fo=
+nt-size:13px;line-height:1.4;border:1px Solid #fff;background:#fff;color:#0=
+90;font-weight:normal">
+<strong>Dieser Termin wurde ge=C3=A4ndert.</strong></h4>
+<div style=3D"padding:2px"><span itemprop=3D"publisher" itemscope=3D"" item=
+type=3D"http://schema.org/Organization">
+<meta itemprop=3D"name" content=3D"Google Calendar">
+</span>
+<meta itemprop=3D"eventId/googleCalendar" content=3D"6pbaj7kih80pv8638h96n9=
+qu1e">
+<h3 style=3D"padding:0 0 6px 0;margin:0;font-family:Arial,Sans-serif;font-s=
+ize:16px;font-weight:bold;color:#222">
+<span itemprop=3D"name">Test</span></h3>
+<table style=3D"display:inline-table" cellpadding=3D"0" cellspacing=3D"0" b=
+order=3D"0" summary=3D"Termindetails">
+<tbody>
+<tr>
+<td style=3D"padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13=
+px;color:#888;white-space:nowrap;width:90px" valign=3D"top">
+<div><i style=3D"font-style:normal">Wann</i></div>
+</td>
+<td style=3D"padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13p=
+x;color:#222" valign=3D"top">
+<div style=3D"text-indent:-1px"><time itemprop=3D"startDate" datetime=3D"20=
+220310T093000Z"></time><time itemprop=3D"endDate" datetime=3D"20220310T1030=
+00Z"></time>Do 10. M=C3=A4r. 2022 10:30 =E2=80=93 11:30
+<span style=3D"color:#888">Mitteleurop=C3=A4ische Zeit - Berlin</span></div=
+>
+</td>
+</tr>
+<tr>
+<td style=3D"padding:0 1em 4px 0;font-family:Arial,Sans-serif;font-size:13p=
+x;color:#888;white-space:nowrap;width:90px" valign=3D"top">
+<div><i style=3D"font-style:normal">Teilnahmeinformationen</i></div>
+</td>
+<td style=3D"padding-bottom:4px;font-family:Arial,Sans-serif;font-size:13px=
+;color:#222" valign=3D"top">
+<div style=3D"text-indent:-1px">Teilnehmen mit: Google Meet</div>
+</td>
+</tr>
+<tr>
+<td style=3D"padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13=
+px;color:#888;white-space:nowrap;width:90px">
+</td>
+<td style=3D"padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13p=
+x;color:#222" valign=3D"top">
+<div style=3D"text-indent:-1px">
+<div style=3D"text-indent:-1px"><span itemprop=3D"potentialaction" itemscop=
+e=3D"" itemtype=3D"http://schema.org/JoinAction"><span itemprop=3D"name" co=
+ntent=3D"meet.google.com/joq-tbfh-upe"><span itemprop=3D"target" itemscope=
+=3D"" itemtype=3D"http://schema.org/EntryPoint"><span itemprop=3D"url" cont=
+ent=3D"https://meet.google.com/joq-tbfh-upe?hs=3D224"><span itemprop=3D"htt=
+pMethod" content=3D"GET"><a href=3D"https://meet.google.com/joq-tbfh-upe?hs=
+=3D224" style=3D"color:#20c;white-space:nowrap" target=3D"_blank">meet.goog=
+le.com/joq-tbfh-upe</a></span></span></span></span></span>
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td style=3D"padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13=
+px;color:#888;white-space:nowrap;width:90px" valign=3D"top">
+<div><i style=3D"font-style:normal">Kalender</i></div>
+</td>
+<td style=3D"padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13p=
+x;color:#222" valign=3D"top">
+<div style=3D"text-indent:-1px">invited.user@dreggn.at</div>
+</td>
+</tr>
+<tr>
+<td style=3D"padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13=
+px;color:#888;white-space:nowrap;width:90px" valign=3D"top">
+<div><i style=3D"font-style:normal">Wer</i></div>
+</td>
+<td style=3D"padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13p=
+x;color:#222" valign=3D"top">
+<table cellspacing=3D"0" cellpadding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding-right:10px;font-family:Arial,Sans-serif;font-size:13px=
+;color:#222;width:10px">
+<div style=3D"text-indent:-1px"><span style=3D"font-family:Courier New,mono=
+space">=E2=80=A2</span></div>
+</td>
+<td style=3D"padding-right:10px;font-family:Arial,Sans-serif;font-size:13px=
+;color:#222">
+<div style=3D"text-indent:-1px">
+<div>
+<div style=3D"margin:0 0 0.3em 0"><span itemprop=3D"attendee" itemscope=3D"=
+" itemtype=3D"http://schema.org/Person"><span itemprop=3D"name" class=3D"no=
+translate">some.user@googlemail.com</span>
+<meta itemprop=3D"email" content=3D"some.user@googlemail.com">
+</span><span itemprop=3D"organizer" itemscope=3D"" itemtype=3D"http://schem=
+a.org/Person">
+<meta itemprop=3D"name" content=3D"some.user@googlemail.com">
+<meta itemprop=3D"email" content=3D"some.user@googlemail.com">
+</span><span style=3D"font-size:11px;color:#888"> - Organisator</span></div=
+>
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td style=3D"padding-right:10px;font-family:Arial,Sans-serif;font-size:13px=
+;color:#222;width:10px">
+<div style=3D"text-indent:-1px"><span style=3D"font-family:Courier New,mono=
+space">=E2=80=A2</span></div>
+</td>
+<td style=3D"padding-right:10px;font-family:Arial,Sans-serif;font-size:13px=
+;color:#222">
+<div style=3D"text-indent:-1px">
+<div>
+<div style=3D"margin:0 0 0.3em 0"><span itemprop=3D"attendee" itemscope=3D"=
+" itemtype=3D"http://schema.org/Person"><span itemprop=3D"name" class=3D"no=
+translate">invited.user@dreggn.at</span>
+<meta itemprop=3D"email" content=3D"invited.user@dreggn.at">
+</span></div>
+</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<div style=3D"float:right;font-weight:bold;font-size:13px"><a href=3D"https=
+://calendar.google.com/calendar/event?action=3DVIEW&amp;eid=3DNnBiYWo3a2loO=
+DBwdjg2MzhoOTZuOXF1MWUgbWF0aGlhcy56ZWxsZXJAZGFpbWxlci5jb20&amp;tok=3DMzAjbW=
+F0aGlhcy5nb2VwcGVsQGdvb2dsZW1haWwuY29tNzg0MDdjNTkzMjEwZTM2NTY0NGY4NmNlMjhkO=
+GQ1NWRlMTVmMDk1Yg&amp;ctz=3DEurope%2FBerlin&amp;hl=3Dde&amp;es=3D0" style=
+=3D"color:#20c;white-space:nowrap" itemprop=3D"url">Mehr
+ Details =C2=BB</a><br>
+</div>
+<div style=3D"padding-bottom:15px;font-family:Arial,Sans-serif;font-size:13=
+px;color:#222;white-space:pre-wrap!important;white-space:-moz-pre-wrap!impo=
+rtant;white-space:-pre-wrap!important;white-space:-o-pre-wrap!important;whi=
+te-space:pre;word-wrap:break-word">
+<span>This is a test.</span>
+<meta itemprop=3D"description" content=3D"Na nu woll'n wer doch mal sehen o=
+b dat klappen tut.">
+</div>
+</div>
+<p style=3D"color:#222;font-size:13px;margin:0"><span style=3D"color:#888">=
+Teilnehmen (invited.user@dreggn.at)?&nbsp;&nbsp;&nbsp;</span><wbr><stro=
+ng><span itemprop=3D"potentialaction" itemscope=3D"" itemtype=3D"http://sch=
+ema.org/RsvpAction">
+<meta itemprop=3D"attendance" content=3D"http://schema.org/RsvpAttendance/Y=
+es">
+<span itemprop=3D"handler" itemscope=3D"" itemtype=3D"http://schema.org/Htt=
+pActionHandler"><link itemprop=3D"method" href=3D"http://schema.org/HttpReq=
+uestMethod/GET"><a href=3D"https://calendar.google.com/calendar/event?actio=
+n=3DRESPOND&amp;eid=3DNnBiYWo3a2loODBwdjg2MzhoOTZuOXF1MWUgbWF0aGlhcy56ZWxsZ=
+XJAZGFpbWxlci5jb20&amp;rst=3D1&amp;tok=3DMzAjbWF0aGlhcy5nb2VwcGVsQGdvb2dsZW=
+1haWwuY29tNzg0MDdjNTkzMjEwZTM2NTY0NGY4NmNlMjhkOGQ1NWRlMTVmMDk1Yg&amp;ctz=3D=
+Europe%2FBerlin&amp;hl=3Dde&amp;es=3D0" style=3D"color:#20c;white-space:now=
+rap" itemprop=3D"url">Ja</a></span></span><span style=3D"margin:0 0.4em;fon=
+t-weight:normal">
+ - </span><span itemprop=3D"potentialaction" itemscope=3D"" itemtype=3D"htt=
+p://schema.org/RsvpAction">
+<meta itemprop=3D"attendance" content=3D"http://schema.org/RsvpAttendance/M=
+aybe">
+<span itemprop=3D"handler" itemscope=3D"" itemtype=3D"http://schema.org/Htt=
+pActionHandler"><link itemprop=3D"method" href=3D"http://schema.org/HttpReq=
+uestMethod/GET"><a href=3D"https://calendar.google.com/calendar/event?actio=
+n=3DRESPOND&amp;eid=3DNnBiYWo3a2loODBwdjg2MzhoOTZuOXF1MWUgbWF0aGlhcy56ZWxsZ=
+XJAZGFpbWxlci5jb20&amp;rst=3D3&amp;tok=3DMzAjbWF0aGlhcy5nb2VwcGVsQGdvb2dsZW=
+1haWwuY29tNzg0MDdjNTkzMjEwZTM2NTY0NGY4NmNlMjhkOGQ1NWRlMTVmMDk1Yg&amp;ctz=3D=
+Europe%2FBerlin&amp;hl=3Dde&amp;es=3D0" style=3D"color:#20c;white-space:now=
+rap" itemprop=3D"url">Vielleicht</a></span></span><span style=3D"margin:0 0=
+.4em;font-weight:normal">
+ - </span><span itemprop=3D"potentialaction" itemscope=3D"" itemtype=3D"htt=
+p://schema.org/RsvpAction">
+<meta itemprop=3D"attendance" content=3D"http://schema.org/RsvpAttendance/N=
+o">
+<span itemprop=3D"handler" itemscope=3D"" itemtype=3D"http://schema.org/Htt=
+pActionHandler"><link itemprop=3D"method" href=3D"http://schema.org/HttpReq=
+uestMethod/GET"><a href=3D"https://calendar.google.com/calendar/event?actio=
+n=3DRESPOND&amp;eid=3DNnBiYWo3a2loODBwdjg2MzhoOTZuOXF1MWUgbWF0aGlhcy56ZWxsZ=
+XJAZGFpbWxlci5jb20&amp;rst=3D2&amp;tok=3DMzAjbWF0aGlhcy5nb2VwcGVsQGdvb2dsZW=
+1haWwuY29tNzg0MDdjNTkzMjEwZTM2NTY0NGY4NmNlMjhkOGQ1NWRlMTVmMDk1Yg&amp;ctz=3D=
+Europe%2FBerlin&amp;hl=3Dde&amp;es=3D0" style=3D"color:#20c;white-space:now=
+rap" itemprop=3D"url">Nein</a></span></span></strong>&nbsp;&nbsp;&nbsp;&nbs=
+p;<wbr><a href=3D"https://calendar.google.com/calendar/event?action=3DVIEW&=
+amp;eid=3DNnBiYWo3a2loODBwdjg2MzhoOTZuOXF1MWUgbWF0aGlhcy56ZWxsZXJAZGFpbWxlc=
+i5jb20&amp;tok=3DMzAjbWF0aGlhcy5nb2VwcGVsQGdvb2dsZW1haWwuY29tNzg0MDdjNTkzMj=
+EwZTM2NTY0NGY4NmNlMjhkOGQ1NWRlMTVmMDk1Yg&amp;ctz=3DEurope%2FBerlin&amp;hl=
+=3Dde&amp;es=3D0" style=3D"color:#20c;white-space:nowrap" itemprop=3D"url">=
+Weitere
+ Optionen =C2=BB</a></p>
+</td>
+</tr>
+<tr>
+<td style=3D"background-color:#f6f6f6;color:#888;border-top:1px Solid #ccc;=
+font-family:Arial,Sans-serif;font-size:11px">
+<p>Einladung von <a href=3D"https://calendar.google.com/calendar/" target=
+=3D"_blank" style=3D"">
+Google Kalender</a></p>
+<p>Sie erhalten diese E-Mail unter invited.user@dreggn.at, da Sie ein G=
+ast bei diesem Termin sind.</p>
+<p>Lehnen Sie diesen Termin ab, um keine weiteren Informationen zu diesem T=
+ermin zu erhalten. Sie k=C3=B6nnen auch unter https://calendar.google.com/c=
+alendar/ ein Google-Konto erstellen und Ihre Benachrichtigungseinstellungen=
+ f=C3=BCr Ihren gesamten Kalender steuern.</p>
+<p>Wenn Sie diese Einladung weiterleiten, kann jeder Empf=C3=A4nger eine An=
+twort an den Organisator senden und zur G=C3=A4steliste hinzugef=C3=BCgt we=
+rden. Au=C3=9Ferdem k=C3=B6nnte er weitere Nutzer einladen und Ihre Antwort=
+ =C3=A4ndern.
+<a href=3D"https://support.google.com/calendar/answer/37135#forwarding">Wei=
+tere Informationen</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</span></span>
+</body>
+</html>
+
+--000000000000ca984c05d9a73f1a
+Content-Type: text/calendar; charset="UTF-8"; method=REQUEST
+Content-Transfer-Encoding: quoted-printable
+
+BEGIN:VCALENDAR
+PRODID:-//Google Inc//Google Calendar 70.9054//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:REQUEST
+BEGIN:VEVENT
+DTSTART:20220310T093000Z
+DTEND:20220310T103000Z
+DTSTAMP:20220307T210716Z
+ORGANIZER;CN=3Dsome.user@googlemail.com:mailto:some.user@google=
+ma
+ il.com
+UID:6pbaj7kih80pv8638h96n9qu1e@google.com
+ATTENDEE;CUTYPE=3DINDIVIDUAL;ROLE=3DREQ-PARTICIPANT;PARTSTAT=3DNEEDS-ACTION=
+;RSVP=3D
+ TRUE;CN=3Dinvited.user@dreggn.at;X-NUM-GUESTS=3D0:mailto:invited.use=
+r@dre
+ ggn.at
+ATTENDEE;CUTYPE=3DINDIVIDUAL;ROLE=3DREQ-PARTICIPANT;PARTSTAT=3DACCEPTED;RSV=
+P=3DTRUE
+ ;CN=3Dsome.user@googlemail.com;X-NUM-GUESTS=3D0:mailto:some.us=
+er@go
+ oglemail.com
+X-GOOGLE-CONFERENCE:https://meet.google.com/joq-tbfh-upe
+X-MICROSOFT-CDO-OWNERAPPTID:-1776693589
+CREATED:20220307T195638Z
+DESCRIPTION:This is a test.\n\n-::~:~::
+ ~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~=
+:
+ ~::-\nDiesen Abschnitt der Beschreibung nicht bearbeiten.\n\nDieser Termin=
+=20
+ enth=C3=A4lt einen Videoanruf.\nTeilnehmen: https://meet.google.com/joq-tb=
+fh-upe
+ \n\nZeigen Sie Ihren Termin unter https://calendar.google.com/calendar/eve=
+n
+ t?action=3DVIEW&eid=3DNnBiYWo3a2loODBwdjg2MzhoOTZuOXF1MWUgbWF0aGlhcy56ZWxs=
+ZXJAZ
+ GFpbWxlci5jb20&tok=3DMzAjbWF0aGlhcy5nb2VwcGVsQGdvb2dsZW1haWwuY29tNzg0MDdjN=
+Tkz
+ MjEwZTM2NTY0NGY4NmNlMjhkOGQ1NWRlMTVmMDk1Yg&ctz=3DEurope%2FBerlin&hl=3Dde&e=
+s=3D0 a
+ n.\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:=
+~
+ :~:~:~:~::~:~::-
+LAST-MODIFIED:20220307T210715Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Test
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR
+
+--000000000000ca984c05d9a73f1a--
+
+--000000000000ca984d05d9a73f1c
+Content-Type: application/ics; name="invite.ics"
+Content-Disposition: attachment; filename="invite.ics"
+Content-Transfer-Encoding: base64
+
+QkVHSU46VkNBTEVOREFSClBST0RJRDotLy9Hb29nbGUgSW5jLy9Hb29nbGUgQ2FsZW5kYXIgNzAu
+OTA1NC8vRU4KVkVSU0lPTjoyLjAKQ0FMU0NBTEU6R1JFR09SSUFOCk1FVEhPRDpSRVFVRVNUCkJF
+R0lOOlZFVkVOVApEVFNUQVJUOjIwMjIwMzEwVDA5MzAwMFoKRFRFTkQ6MjAyMjAzMTBUMTAzMDAw
+WgpEVFNUQU1QOjIwMjIwMzA3VDIxMDcxNloKT1JHQU5JWkVSO0NOPXNvbWUudXNlckBnb29nbGVt
+YWlsLmNvbTptYWlsdG86c29tZS51c2VyQGdvb2dsZW1hCiBpbC5jb20KVUlEOjZwYmFqN2tpaDgw
+cHY4NjM4aDk2bjlxdTFlQGdvb2dsZS5jb20KQVRURU5ERUU7Q1VUWVBFPUlORElWSURVQUw7Uk9M
+RT1SRVEtUEFSVElDSVBBTlQ7UEFSVFNUQVQ9TkVFRFMtQUNUSU9OO1JTVlA9CiBUUlVFO0NOPWlu
+dml0ZWQudXNlckBkcmVnZ24uYXQ7WC1OVU0tR1VFU1RTPTA6bWFpbHRvOmludml0ZWQudXNlckBk
+cmUKIGdnbi5hdApBVFRFTkRFRTtDVVRZUEU9SU5ESVZJRFVBTDtST0xFPVJFUS1QQVJUSUNJUEFO
+VDtQQVJUU1RBVD1BQ0NFUFRFRDtSU1ZQPVRSVUUKIDtDTj1zb21lLnVzZXJAZ29vZ2xlbWFpbC5j
+b207WC1OVU0tR1VFU1RTPTA6bWFpbHRvOnNvbWUudXNlckBnbwogb2dsZW1haWwuY29tClgtR09P
+R0xFLUNPTkZFUkVOQ0U6aHR0cHM6Ly9tZWV0Lmdvb2dsZS5jb20vam9xLXRiZmgtdXBlClgtTUlD
+Uk9TT0ZULUNETy1PV05FUkFQUFRJRDotMTc3NjY5MzU4OQpDUkVBVEVEOjIwMjIwMzA3VDE5NTYz
+OFoKREVTQ1JJUFRJT046TmEgbnUgd29sbCduIHdlciBkb2NoIG1hbCBzZWhlbiBvYiBkYXQga2xh
+cHBlbiB0dXQuXG5cbi06On46fjo6CiB+On46fjp+On46fjp+On46fjp+On46fjp+On46fjp+On46
+fjp+On46fjp+On46fjp+On46fjp+On46fjp+On46fjp+On46fjo6fjoKIH46Oi1cbkRpZXNlbiBB
+YnNjaG5pdHQgZGVyIEJlc2NocmVpYnVuZyBuaWNodCBiZWFyYmVpdGVuLlxuXG5EaWVzZXIgVGVy
+bWluCiBlbnRow6RsdCBlaW5lbiBWaWRlb2FucnVmLlxuVGVpbG5laG1lbjogaHR0cHM6Ly9tZWV0
+Lmdvb2dsZS5jb20vam9xLXRiZmgtdXBlCiBcblxuWmVpZ2VuIFNpZSBJaHJlbiBUZXJtaW4gdW50
+ZXIgaHR0cHM6Ly9jYWxlbmRhci5nb29nbGUuY29tL2NhbGVuZGFyL2V2ZW4KIHQ/YWN0aW9uPVZJ
+RVcmZWlkPU5uQmlZV28zYTJsb09EQndkamcyTXpob09UWnVPWEYxTVdVZ2JXRjBhR2xoY3k1NlpX
+eHNaWEpBWgogR0ZwYld4bGNpNWpiMjAmdG9rPU16QWpiV0YwYUdsaGN5NW5iMlZ3Y0dWc1FHZHZi
+MmRzWlcxaGFXd3VZMjl0TnpnME1EZGpOVGt6CiBNakV3WlRNMk5UWTBOR1k0Tm1ObE1qaGtPR1Ex
+TldSbE1UVm1NRGsxWWcmY3R6PUV1cm9wZSUyRkJlcmxpbiZobD1kZSZlcz0wIGEKIG4uXG4tOjp+
+On46On46fjp+On46fjp+On46fjp+On46fjp+On46fjp+On46fjp+On46fjp+On46fjp+On46fjp+
+On46fjp+On46fgogOn46fjp+On46On46fjo6LQpMQVNULU1PRElGSUVEOjIwMjIwMzA3VDIxMDcx
+NVoKTE9DQVRJT046ClNFUVVFTkNFOjAKU1RBVFVTOkNPTkZJUk1FRApTVU1NQVJZOlRlc3QKVFJB
+TlNQOk9QQVFVRQpFTkQ6VkVWRU5UCkVORDpWQ0FMRU5EQVIK
+
+--000000000000ca984d05d9a73f1c--
