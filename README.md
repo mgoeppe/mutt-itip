@@ -1,3 +1,5 @@
+[![go: build & test](https://github.com/matoubidou/mutt-itip/actions/workflows/go.yaml/badge.svg)](https://github.com/matoubidou/mutt-itip/actions/workflows/go.yaml) ![codecov](https://codecov.io/gh/matoubidou/mutt-itip/branch/main/graph/badge.svg)
+
 # mutt-itip
 
 Enables mutt users to deal with iCal invitations in mutt. The overall process is
