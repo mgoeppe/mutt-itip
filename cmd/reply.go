@@ -90,8 +90,6 @@ func reply(r ics.PropertyParameter) {
 
 	if dry {
 		printMail(from, to, body)
-		// that way we see the outputin mutt
-		os.Exit(1)
 	} else {
 		err := sendMail(from, to, body)
 		if err != nil {
@@ -104,7 +102,8 @@ func reply(r ics.PropertyParameter) {
 func createResponseCalendar(e *ics.VEvent, reply ics.PropertyParameter, email string) (*ics.Calendar, string, error) {
 	c := ics.NewCalendar()
 	c.SetMethod(ics.MethodReply)
-	c.SetProductId("github.com/matoubidou/mutt-itip")
+	// c.SetProductId("github.com/matoubidou/mutt-itip")
+	c.SetProductId("Microsoft Exchange Server 2010")
 
 	copyProperty := func(dst, src *ics.VEvent, p ics.ComponentProperty) {
 		prop := src.GetProperty(p)
@@ -122,31 +121,48 @@ func createResponseCalendar(e *ics.VEvent, reply ics.PropertyParameter, email st
 	uid := p.Value
 	resEvent := c.AddEvent(uid)
 	resEvent.AddAttendee(email, reply)
-	resEvent.AddProperty(ics.ComponentPropertyDtstamp, time.Now().Format(dateLayout))
+	resEvent.AddProperty(ics.ComponentPropertyDtstamp, time.Now().UTC().Format(dateLayout)+"Z")
 	copyProperty(resEvent, e, ics.ComponentPropertyOrganizer)
-	// TODO: this seems odd
-	copyProperty(resEvent, e, ics.ComponentProperty(ics.PropertyRecurrenceId))
-	copyProperty(resEvent, e, ics.ComponentPropertySequence)
-	// according to rfc not needed
-	// copyProperty(resEvent, e, ics.ComponentPropertyDtStart)
-	// copyProperty(resEvent, e, ics.ComponentPropertyDtEnd)
-
+	summary := uid
+	p = e.GetProperty(ics.ComponentPropertySummary)
+	if p != nil {
+		summary = p.Value
+	}
+	summary = fmt.Sprintf("%s: %s", reply, summary)
+	resEvent.SetProperty(ics.ComponentPropertySummary, summary)
 	if replyComment != "" {
 		resEvent.AddProperty(ics.ComponentProperty(ics.PropertyComment), replyComment)
 	}
 
-	answer := uid
-	summary := e.GetProperty(ics.ComponentPropertySummary)
-	if summary != nil {
-		answer = summary.Value
-	}
-	return c, fmt.Sprintf("Subject: %s: %s\n", fmt.Sprintf("%s", reply), answer), nil
+	// TODO: this seems odd
+	// copyProperty(resEvent, e, ics.ComponentProperty(ics.PropertyRecurrenceId))
+	copyProperty(resEvent, e, ics.ComponentPropertySequence)
+
+	// according to rfc not needed but trying to get things working
+	// with Microsoft Exchange Server 2010
+	copyProperty(resEvent, e, ics.ComponentPropertyDtStart)
+	copyProperty(resEvent, e, ics.ComponentPropertyDtEnd)
+	copyProperty(resEvent, e, ics.ComponentPropertyTransp)
+	copyProperty(resEvent, e, ics.ComponentPropertyStatus)
+	copyProperty(resEvent, e, ics.ComponentPropertyClass)
+	copyProperty(resEvent, e, ics.ComponentPropertyCategories)
+	// resEvent.AddProperty(ics.ComponentProperty("X-MICROSOFT-CDO-APPT-SEQUENCE"), "0")
+	// resEvent.AddProperty(ics.ComponentProperty("X-MICROSOFT-CDO-OWNERAPPTID"), "2120437062")
+	// resEvent.AddProperty(ics.ComponentProperty("X-MICROSOFT-CDO-BUSYSTATUS"), "BUSY")
+	// resEvent.AddProperty(ics.ComponentProperty("X-MICROSOFT-CDO-INTENDEDSTATUS"), "BUSY")
+	// resEvent.AddProperty(ics.ComponentProperty("X-MICROSOFT-CDO-ALLDAYEVENT"), "FALSE")
+	// resEvent.AddProperty(ics.ComponentProperty("X-MICROSOFT-CDO-IMPORTANCE"), "1")
+	// resEvent.AddProperty(ics.ComponentProperty("X-MICROSOFT-CDO-INSTTYPE"), "0")
+	// resEvent.AddProperty(ics.ComponentProperty("X-MICROSOFT-DONOTFORWARDMEETING"), "FALSE")
+	// resEvent.AddProperty(ics.ComponentProperty("X-MICROSOFT-DISALLOW-COUNTER"), "FALSE")
+
+	return c, fmt.Sprintf("Subject: %s", summary), nil
 }
 
 func createResponseEmail(ical *ics.Calendar, from string, subject string) ([]byte, error) {
 	var body bytes.Buffer
 	body.WriteString(fmt.Sprintf("From: %s\n", from))
-	body.WriteString(fmt.Sprintf("Subject: %s", subject))
+	body.WriteString(fmt.Sprintf("Subject: %s\n", subject))
 	body.WriteString("MIME-Version: 1.0\n")
 	body.WriteString("Content-Type: text/calendar; charset=utf-8; method=reply\n")
 	body.WriteString("Content-Transfer-Encoding: quoted-printable\n\n")
