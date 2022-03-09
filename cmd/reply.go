@@ -102,8 +102,7 @@ func reply(r ics.PropertyParameter) {
 func createResponseCalendar(e *ics.VEvent, reply ics.PropertyParameter, email string) (*ics.Calendar, string, error) {
 	c := ics.NewCalendar()
 	c.SetMethod(ics.MethodReply)
-	// c.SetProductId("github.com/matoubidou/mutt-itip")
-	c.SetProductId("Microsoft Exchange Server 2010")
+	c.SetProductId("github.com/matoubidou/mutt-itip")
 
 	copyProperty := func(dst, src *ics.VEvent, p ics.ComponentProperty) {
 		prop := src.GetProperty(p)
