@@ -75,7 +75,10 @@ func reply(r ics.PropertyParameter) {
 	}
 	e := oneEventOrDie(c)
 
-	c, subject := createResponseCalendar(e, r, from)
+	c, subject, err := createResponseCalendar(e, r, from)
+	if err != nil {
+		log.Fatal(err)
+	}
 	body, err := createResponseEmail(c, from, subject)
 	if err != nil {
 		log.Fatal(err)
@@ -98,9 +101,10 @@ func reply(r ics.PropertyParameter) {
 	}
 }
 
-func createResponseCalendar(e *ics.VEvent, reply ics.PropertyParameter, email string) (*ics.Calendar, string) {
+func createResponseCalendar(e *ics.VEvent, reply ics.PropertyParameter, email string) (*ics.Calendar, string, error) {
 	c := ics.NewCalendar()
 	c.SetMethod(ics.MethodReply)
+	c.SetProductId("github.com/matoubidou/mutt-itip")
 
 	copyProperty := func(dst, src *ics.VEvent, p ics.ComponentProperty) {
 		prop := src.GetProperty(p)
@@ -111,7 +115,11 @@ func createResponseCalendar(e *ics.VEvent, reply ics.PropertyParameter, email st
 		dst.AddProperty(p, prop.Value)
 	}
 
-	uid := e.GetProperty(ics.ComponentPropertyUniqueId).Value
+	p := e.GetProperty(ics.ComponentPropertyUniqueId)
+	if p == nil {
+		return nil, "", fmt.Errorf("event w/o uid")
+	}
+	uid := p.Value
 	resEvent := c.AddEvent(uid)
 	resEvent.AddAttendee(email, reply)
 	resEvent.AddProperty(ics.ComponentPropertyDtstamp, time.Now().Format(dateLayout))
@@ -132,7 +140,7 @@ func createResponseCalendar(e *ics.VEvent, reply ics.PropertyParameter, email st
 	if summary != nil {
 		answer = summary.Value
 	}
-	return c, fmt.Sprintf("Subject: %s: %s\n", fmt.Sprintf("%s", reply), answer)
+	return c, fmt.Sprintf("Subject: %s: %s\n", fmt.Sprintf("%s", reply), answer), nil
 }
 
 func createResponseEmail(ical *ics.Calendar, from string, subject string) ([]byte, error) {
