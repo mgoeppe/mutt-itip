@@ -34,6 +34,8 @@ func init() {
 	viper.AddConfigPath("$HOME/.config/")
 	viper.AddConfigPath("$HOME/.config/mutt")
 	viper.AddConfigPath("/etc")
-	// ignore error -> only format will work
-	_ = viper.ReadInConfig()
+	err := viper.ReadInConfig()
+	if err != nil {
+		log.Warnf("only format subcommand will work: %w", err)
+	}
 }
