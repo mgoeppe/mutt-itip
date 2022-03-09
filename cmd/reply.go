@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"bytes"
+	"encoding/base64"
 	"fmt"
 	"net/mail"
 	"net/smtp"
@@ -133,27 +134,9 @@ func createResponseCalendar(e *ics.VEvent, reply ics.PropertyParameter, email st
 		resEvent.AddProperty(ics.ComponentProperty(ics.PropertyComment), replyComment)
 	}
 
-	// TODO: this seems odd
-	// copyProperty(resEvent, e, ics.ComponentProperty(ics.PropertyRecurrenceId))
-	copyProperty(resEvent, e, ics.ComponentPropertySequence)
-
-	// according to rfc not needed but trying to get things working
-	// with Microsoft Exchange Server 2010
+	// needed to work with Exchange Server 2010
 	copyProperty(resEvent, e, ics.ComponentPropertyDtStart)
 	copyProperty(resEvent, e, ics.ComponentPropertyDtEnd)
-	copyProperty(resEvent, e, ics.ComponentPropertyTransp)
-	copyProperty(resEvent, e, ics.ComponentPropertyStatus)
-	copyProperty(resEvent, e, ics.ComponentPropertyClass)
-	copyProperty(resEvent, e, ics.ComponentPropertyCategories)
-	// resEvent.AddProperty(ics.ComponentProperty("X-MICROSOFT-CDO-APPT-SEQUENCE"), "0")
-	// resEvent.AddProperty(ics.ComponentProperty("X-MICROSOFT-CDO-OWNERAPPTID"), "2120437062")
-	// resEvent.AddProperty(ics.ComponentProperty("X-MICROSOFT-CDO-BUSYSTATUS"), "BUSY")
-	// resEvent.AddProperty(ics.ComponentProperty("X-MICROSOFT-CDO-INTENDEDSTATUS"), "BUSY")
-	// resEvent.AddProperty(ics.ComponentProperty("X-MICROSOFT-CDO-ALLDAYEVENT"), "FALSE")
-	// resEvent.AddProperty(ics.ComponentProperty("X-MICROSOFT-CDO-IMPORTANCE"), "1")
-	// resEvent.AddProperty(ics.ComponentProperty("X-MICROSOFT-CDO-INSTTYPE"), "0")
-	// resEvent.AddProperty(ics.ComponentProperty("X-MICROSOFT-DONOTFORWARDMEETING"), "FALSE")
-	// resEvent.AddProperty(ics.ComponentProperty("X-MICROSOFT-DISALLOW-COUNTER"), "FALSE")
 
 	return c, fmt.Sprintf("Subject: %s", summary), nil
 }
@@ -163,13 +146,25 @@ func createResponseEmail(ical *ics.Calendar, from string, subject string) ([]byt
 	body.WriteString(fmt.Sprintf("From: %s\n", from))
 	body.WriteString(fmt.Sprintf("Subject: %s\n", subject))
 	body.WriteString("MIME-Version: 1.0\n")
-	body.WriteString("Content-Type: text/calendar; charset=utf-8; method=reply\n")
-	body.WriteString("Content-Transfer-Encoding: quoted-printable\n\n")
+	// multipart needed to work with Exchange Server 2010
+	body.WriteString("Content-Type: multipart/alternative; boundary=\"_mutt_itip_\"\n\n")
 
-	err := ical.SerializeTo(&body)
+	body.WriteString("--_mutt_itip_\n")
+	body.WriteString("Content-Type: text/plain; charset=\"us-ascii\"\n\n")
+
+	body.WriteString("--_mutt_itip_\n")
+	body.WriteString("Content-Type: text/html; charset=\"us-ascii\"\n\n")
+
+	body.WriteString("--_mutt_itip_\n")
+	body.WriteString("Content-Type: text/calendar; charset=\"utf-8\"; method=REPLY\n")
+	body.WriteString("Content-Transfer-Encoding: base64\n\n")
+
+	err := ical.SerializeTo(base64.NewEncoder(base64.StdEncoding, &body))
 	if err != nil {
 		return nil, err
 	}
+
+	body.WriteString("\n\n--_mutt_itip_--\n")
 
 	return body.Bytes(), nil
 }
