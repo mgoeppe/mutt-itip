@@ -36,6 +36,6 @@ func init() {
 	viper.AddConfigPath("/etc")
 	err := viper.ReadInConfig()
 	if err != nil {
-		log.Warnf("only format subcommand will work: %w", err)
+		log.Warnf("only format subcommand will work: %v", err)
 	}
 }
