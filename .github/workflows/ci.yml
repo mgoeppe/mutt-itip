@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   lint:
@@ -44,3 +45,4 @@ jobs:
         with:
           files: ./coverage.txt
           flags: unittests
+          use_oidc: true
