@@ -1,1 +1,22 @@
 testinput/*
+
+# Binary
+mutt-itip
+mutt-itip.exe
+
+# Test and coverage
+*.test
+coverage.txt
+coverage.out
+coverage.html
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db

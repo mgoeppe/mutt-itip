@@ -1,6 +1,6 @@
-module github.com/matoubidou/mutt-itip
+module github.com/mgoeppe/mutt-itip
 
-go 1.17
+go 1.23
 
 require (
 	github.com/DusanKasan/parsemail v0.0.0-00010101000000-000000000000
@@ -37,4 +37,4 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
 
-replace github.com/DusanKasan/parsemail => github.com/matoubidou/parsemail v1.2.1-0.20220308100018-5a94f967cf0d
+replace github.com/DusanKasan/parsemail => github.com/mgoeppe/parsemail v1.2.1-0.20220308100018-5a94f967cf0d

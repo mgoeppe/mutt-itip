@@ -1,6 +1,6 @@
 package main
 
-import "github.com/matoubidou/mutt-itip/cmd"
+import "github.com/mgoeppe/mutt-itip/cmd"
 
 func main() {
 	cmd.Execute()

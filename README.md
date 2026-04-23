@@ -1,9 +1,12 @@
-[![go: build & test](https://github.com/matoubidou/mutt-itip/actions/workflows/go.yaml/badge.svg)](https://github.com/matoubidou/mutt-itip/actions/workflows/go.yaml) ![codecov](https://codecov.io/gh/matoubidou/mutt-itip/branch/main/graph/badge.svg)
+[![CI](https://github.com/mgoeppe/mutt-itip/actions/workflows/ci.yml/badge.svg)](https://github.com/mgoeppe/mutt-itip/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/mgoeppe/mutt-itip/branch/main/graph/badge.svg)](https://codecov.io/gh/mgoeppe/mutt-itip)
+[![Go Report Card](https://goreportcard.com/badge/github.com/mgoeppe/mutt-itip)](https://goreportcard.com/report/github.com/mgoeppe/mutt-itip)
+[![License](https://img.shields.io/github/license/mgoeppe/mutt-itip)](LICENSE)
 
 # mutt-itip
 
 Enables mutt users to deal with iCal invitations in mutt. The overall process is
-defined in [RFC 5546](https://datatracker.ietf.org/doc/html/rfc5546).Currently
+defined in [RFC 5546](https://datatracker.ietf.org/doc/html/rfc5546). Currently
 only the following features are implemented:
 
 * accept / declined / tentatively accept invitations sending back reply mails to
@@ -27,7 +30,7 @@ only the following features are implemented:
 Get the binary using go:
 
 ```
-go get -u github.com/matoubidou/mutt-itip
+go install github.com/mgoeppe/mutt-itip@latest
 ```
 
 In order to display invitations in mutt add the following lines to your
